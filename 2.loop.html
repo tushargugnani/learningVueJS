@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h5>Loop through list of numbers</h5>
+        <ul>
+            <li v-for="n in 5">{{n}}</li>
+        </ul>
+        <h5>Loop through Array</h5>
+        <ul>
+            <li v-for="n in countdown">{{n}}</li>
+        </ul>
+        <h5>Loop through Array with Index Notation</h5>
+        <ul>
+            <li v-for="(fruit, i) in fruits">{{i}} - {{fruit}}</li>
+        </ul>
+        <h5>Loop through Object Properties</h5>
+        <ul>
+            <li v-for="(value, key, index) in profile">{{key}} - {{value}}</li>
+        </ul>
+    </div>
+</body>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            countdown: [5, 4, 3, 2, 1],
+            fruits: ["Apple", "Banana", "Orange", "Mango", "Grapes"],
+            profile : {
+                name : 'Tushar',
+                age : '31',
+                degree : 'Masters',
+                position : 'Full Stack Developer'
+            }
+        }
+    });
+</script>
+</html>
