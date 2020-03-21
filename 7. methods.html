@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+         <h2>Greet</h2>
+         <button v-on:click="greet('Hello')">Say Hello</button>
+         <button v-on:click="greet('Hi')">Say Hi</button>
+         <button v-on:click="greet('Namaste')">Say Namaste</button>
+          <br/><br/>
+         {{greeting}}
+    </div>
+</body>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            greeting: '',
+        },
+        methods: {
+            greet: function(greeting){
+                this.greeting = greeting +  ", How Are You?";
+            }
+        }
+    });
+</script>
+</html>
