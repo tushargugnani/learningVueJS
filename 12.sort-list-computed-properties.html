@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .asc:after{
+            content: "\25B2"
+        }
+
+        .desc:after{
+            content: "\25BC"
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h3>List of Products</h3>
+
+        <table border="1">
+            <thead>
+              <tr>
+                <th @click="sort('name')" v-bind:class="[sortBy === 'name' ? sortDirection : '']">Name</th>
+                <th @click="sort('price')" v-bind:class="[sortBy === 'price' ? sortDirection : '']">Price</th>
+                <th @click="sort('category')" v-bind:class="[sortBy === 'category' ? sortDirection : '']">Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="product in sortedProducts">
+                <td>{{product.name}}</td>
+                <td>{{product.price}}</td>
+                <td>{{product.category}}</td>
+              </tr>
+            </tbody>
+     </table>
+
+       
+    </div>
+</body>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            sortBy: 'name',
+            sortDirection: 'asc',
+            products: [
+                { name: "Keyboard", price: 44, category: 'Accessories'},
+                { name: "Mouse", price: 20, category: 'Accessories'},
+                { name: "Monitor", price: 399, category: 'Accessories'},
+                { name: "Dell XPS", price: 599, category: 'Laptop'},
+                { name: "MacBook Pro", price: 899, category: 'Laptop'},
+                { name: "Pencil Box", price: 6, category: 'Stationary'},
+                { name: "Pen", price: 2, category: 'Stationary'},
+                { name: "USB Cable", price: 7, category: 'Accessories'},
+                { name: "Eraser", price: 2, category: 'Stationary'},
+                { name: "Highlighter", price: 5, category: 'Stationary'}
+            ]
+        },
+
+        computed: {
+            sortedProducts: function(){
+                return this.products.sort((p1,p2) => {
+                    let modifier = 1;
+                    if(this.sortDirection === 'desc') modifier = -1;
+                    if(p1[this.sortBy] < p2[this.sortBy]) return -1 * modifier;
+                    if(p1[this.sortBy] > p2[this.sortBy]) return 1 * modifier;
+                    return 0;
+                });
+            }
+        },
+        
+        methods: {
+            sort: function(s){
+                if(s === this.sortBy) {
+                    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+                }
+                this.sortBy = s;
+            }
+        },
+
+
+    });
+</script>
+</html>
