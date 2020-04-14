@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div class="container">
+            <div id="app" class="text-center">
+                <img :src="images[currentImage]" width="400" height="500"><br/><br/>
+                <button @click="previousImage" class="btn btn-primary" :disabled="currentImage === 0">Previous</button>
+                <button @click="nextImage" class="btn btn-primary" :disabled="currentImage === (images.length - 1)">Next</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            images: ['https://i.imgur.com/rmydi2w.jpg', 'https://i.imgur.com/rAFqZiM.jpg', 'https://i.imgur.com/Fpw5KKY.jpg', 'https://i.imgur.com/IbYRmoW.jpg', 'https://i.imgur.com/9poVrgA.jpg'],
+            currentImage : 0
+        },
+        methods:{
+            nextImage: function(e){
+                if(this.currentImage !== (this.images.length -1))
+                    this.currentImage++;
+            },
+
+            previousImage: function(e){
+                if(this.currentImage !== 0)
+                    this.currentImage--;
+            }
+        }
+    });
+</script>
+</html>
