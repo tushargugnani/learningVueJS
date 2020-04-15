@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app" class="container">
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum iste <span class="dots" v-show="!more">...</span>
+            <span class="more" v-show="more">iusto magni voluptas impedit vitae neque aut eaque repudiandae laboriosam in, minima totam animi sunt aliquam? Architecto at esse labore?</span><br/>
+        </p>
+        <a href="#" @click="toggleText" class="btn btn-primary my-3">{{buttonText}}</a>
+    </div>
+</body>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            more: false,
+        },
+        methods:{
+            toggleText: function(){
+                this.more = !this.more
+            }
+        },
+        computed: {
+            buttonText: function () {
+                return this.more ? 'Show Less' : 'Show More';
+            }
+        }
+    });
+</script>
+</html>
