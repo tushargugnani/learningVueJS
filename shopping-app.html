@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .removed {
+            color: gray;
+        }
+
+        .removed label {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div id="app">
+                    <h3>Shopping List</h3><br/>
+                    <input class="form-control" v-model="newItem" name="newItem" placeholder="Add New Item" @keyup.enter="addItem" />
+                    <ul class="list-group">
+                        <li class="list-group-item" v-for="item in items" :class="{'removed' : item.checked}">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" v-model="item.checked">
+                                <label class="form-check-label" for="defaultCheck1">
+                                  {{item.text}}
+                                </label>
+                              </div>
+                        </li>
+                    </ul><br/>
+                    <br/><br/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+   let app = new Vue({
+        el : '#app',
+        data:{
+            items: [
+                {text : 'Banana', checked : false},
+                {text : 'Oranges', checked : false},
+                {text : 'Mangoes', checked : false},
+            ],
+            newItem: '',
+        },
+        methods: {
+            addItem() {
+                var text;
+
+                text = this.newItem.trim();
+                if(text){
+                    this.items.push({text: this.newItem, checked: false});
+                    this.newItem = ''
+                }
+            }
+        }
+   });
+</script>
+</html>
