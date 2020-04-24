@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h2>Pomodoro</h2>
+        <span>{{min}}::{{sec}}</span>
+        <button @click="start">Start</button>
+        <button @click="pause">Pause</button>
+        <button @click="stop">Stop</button>
+
+        <br>{{pomodoroState}}<br/><br/>
+
+        CurrentState : {{state}}
+    </div>
+</body>
+<script>
+    const WORK_TIME_IN_MINUTES = 1;
+    const REST_TIME_IN_MINUTES = 1;
+
+    const POMODORO_STATES = {
+        WORK: 'Work',
+        REST: 'Rest'
+    } 
+
+    const states = {
+        STARTED : 'started',
+        PAUSED : 'paused',
+        STOPPED : 'stopped'
+    };
+
+    let app = new Vue({
+        el : '#app',
+        data:{
+            minutes: WORK_TIME_IN_MINUTES,
+            seconds: 0,
+            pomodoroState : POMODORO_STATES.WORK,
+            state: states.STOPPED,
+        },
+        methods:{
+                start(){
+                    this.state = states.STARTED;
+                    this._tick();
+                    this.interval = setInterval(this._tick,1000);
+                },
+
+                _tick(){
+                    if(this.seconds !== 0){
+                        this.seconds--;
+                        return
+                    }
+
+                    if(this.minutes !== 0){
+                        this.minutes--;
+                        this.seconds = 10;
+                        return;
+                    }
+
+                    this.pomodoroState = this.pomodoroState === POMODORO_STATES.WORK ? POMODORO_STATES.REST : POMODORO_STATES.WORK;
+
+                    if(this.pomodoroState === 'Work'){
+                        this.minutes = WORK_TIME_IN_MINUTES;
+                    }else{
+                        this.minutes = REST_TIME_IN_MINUTES;
+                    }
+
+                },
+
+                pause(){
+                    this.state = states.PAUSED;
+                    clearInterval(this.interval);
+                },
+
+                stop(){
+                    this.state = states.STOPPED;
+                    clearInterval(this.interval);
+                    this.pomodoroState = 'Work';
+                    this.minutes = WORK_TIME_IN_MINUTES,
+                    this.seconds = 0;
+                }
+            },
+            computed:{
+                min: function(){
+                    if(this.minutes < 10){
+                        return '0' + this.minutes;
+                    }
+
+                    return this.minutes;
+                        
+                },
+
+                sec: function(){
+                    if(this.seconds < 10){
+                        return '0' + this.seconds;
+                    }
+                        
+                    return this.seconds;
+                }
+            }
+    });
+</script>
+</html>
