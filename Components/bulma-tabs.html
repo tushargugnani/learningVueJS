@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+</head>
+<body>
+    <div id="app">
+        <tabs>
+            <tab :selected="true" name="First Tab">Content of first tab</tab>
+            <tab name="Second Tab">Content of second tab</tab>
+            <tab name="Third Tab">Content of third tab</tab>
+        </tabs>
+    </div>
+</body>
+<script>
+
+    Vue.component('tabs',{
+        template: `<div>
+                <div class="tabs">
+                    <ul>
+                    <li :class="[tab.isActive ? 'is-active' : '']" v-for="tab in tabs" @click="selectTab(tab)"><a href="#">{{tab.name}}</a></li>
+                    </ul>
+                </div>
+                
+                <div class="tab-details">
+                    <slot></slot>
+                </div>
+        </div>`,
+
+        data(){
+            return {
+                tabs: []
+            }
+        },
+
+        created(){
+            this.tabs = this.$children;
+            console.log(this.tabs);
+        },
+
+        methods:{
+            selectTab(selectedTab){
+                this.tabs.forEach(tab => {
+                    tab.isActive = false;
+                });
+                selectedTab.isActive = true;
+            }
+        }
+
+    });
+
+    Vue.component('tab',{
+
+        template: `<div v-show="isActive"><slot></slot></div>`,
+
+        props: {
+            name:{
+                required: true
+            },
+            selected:{
+                default: false
+            }
+        },
+
+        data(){
+            return{
+                isActive: false
+            }
+        },
+
+        mounted(){
+            this.isActive = this.selected;
+        }
+    })
+
+
+
+    let app = new Vue({
+        el: '#app'
+    });
+</script>
+</html>
