@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            padding: 40px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <div class="row">
+                    <property-card :title="property.title" :description="property.description" :image="property.image" v-for="property in properties"></property-card>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+
+    Vue.component('property-card',{
+        template: `<div class="card mx-2" style="width: 18rem;">
+                        <img :src="'images/houses/'+image" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">{{title}}</h5>
+                          <p class="card-text">{{description}}</p>
+                          <a href="#" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>`,
+
+          props: ['title', 'description','image']
+    });
+    
+    var app = new Vue({
+       el: '#app' ,
+       data:{
+         properties: [
+           {'title' : 'House # 1', 'description': 'Very Beautiful House', 'image' : 'house-1.jpg'},
+           {'title' : 'House # 2', 'description': 'Country Side House', 'image' : 'house-2.jpg'},
+           {'title' : 'House # 3', 'description': 'House with Swimming Pool', 'image' : 'house-3.jpeg'},
+         ]
+       }
+    });
+</script>
+</html>
