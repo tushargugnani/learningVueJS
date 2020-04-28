@@ -15,11 +15,11 @@
     <link rel="stylesheet" href="../assets/css/fontawesome-all.min.css"/>
 
     <style>
-        .golden{
-            color: #d4af37;
+        .blue{
+            color: #0088cc;
         }
         .like-button:hover{
-            color: #d4af37;
+            color: #0088cc;
         }
     </style>
 
@@ -28,18 +28,49 @@
 </head>
 <body>
     <div id="app">
-        <like></like>
+        <post></post>
     </div>
     <script>
 
-        Vue.component('like',{
-            template: `<span><i @click="liked = !liked" :class="[liked ? 'fa golden' : 'far']" class="like-button fa-thumbs-up"></i> {{liked ? 'Liked' : 'Like'}}<span>`,
+      Vue.component('like',{
+            template: `<span><i @click="likeToggle" :class="[liked ? 'fa blue' : 'far']" class="like-button fa-thumbs-up"></i> {{liked ? 'Liked' : 'Like'}}</span>`,
             data(){
                 return{
                     liked: false,
                 }
             },
+            methods:{
+                likeToggle(){
+                    this.liked = !this.liked;
+                    this.$emit('postLiked', (this.liked ? 1 : -1))
+                }
+            }
         });
+
+        Vue.component('post',{
+            template: `<div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                        <h5 class="card-title">Post Title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">This is a sample post description</h6>
+                        <like @postLiked="onPostLiked"></like>
+                        <br>Total Likes {{totalLikes}}
+                        </div>
+                    </div>`,
+
+            data(){
+                return{
+                    totalLikes: 0
+                }
+            },
+
+            methods:{
+                onPostLiked(value){
+                    this.totalLikes = this.totalLikes + value;
+                }
+            }
+        });
+
+
 
         let app = new Vue({
             el: '#app',
