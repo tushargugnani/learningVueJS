@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            padding: 40px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1><countdown-timer :total-minutes="2" :total-seconds="30"></countdown-timer></h1>
+    </div>
+    <script>
+
+      const TIMER_STATE = {
+          running: 'Running',
+          stopped: 'Stopped',
+          paused: 'Paused'
+      };
+
+      Vue.component('countdown-timer',{
+            template: `<div>
+                            <span>{{min}}:{{sec}}</span><br/>
+                            <button class="btn btn-success" @click="start" :disabled="!isTimerRunning">Start</button>
+                            <button class="btn btn-warning" v-on="isTimerPaused ? { click: start } : { click : pause }" :disabled="isTimerRunning">{{isTimerPaused ? 'Resume' : 'Pause'}}</button>
+                            <button class="btn btn-danger" @click="reset" :disabled="isTimerRunning">Reset</button>
+                        </div>`,
+            data(){
+                return{
+                    timerMinutes: 0,
+                    timerSeconds: 0,
+                    timerState : TIMER_STATE.stopped
+                }
+
+            },
+            props:{
+                totalMinutes: {
+                    type: Number,
+                    default: 1
+                },
+                totalSeconds: {
+                    type: Number,
+                    default: 0
+                }
+            },
+            mounted(){
+                this.timerMinutes = this.totalMinutes;
+                this.timerSeconds = this.totalSeconds;
+            },
+            methods:{
+                start(){
+                    this._tick();
+                    this.ticking = setInterval(this._tick, 1000);
+                    this.timerState = TIMER_STATE.running;
+                },
+                pause(){
+                    clearInterval(this.ticking);
+                    this.timerState = TIMER_STATE.paused;
+                },
+                reset(){
+                    this.timerMinutes = this.totalMinutes;
+                    this.timerSeconds = this.totalSeconds;
+                    clearInterval(this.ticking);
+                    this.timerState = TIMER_STATE.stopped;
+                },
+
+                _tick(){
+                    if(this.timerSeconds !== 0){
+                        this.timerSeconds--;
+                        return
+                    }
+
+                    if(this.timerMinutes !== 0){
+                        this.timerMinutes--;
+                        this.timerSeconds = 59;
+                        return;
+                    }
+                }
+            },
+            computed: {
+                min() {
+                    if(this.timerMinutes < 10){
+                        return '0'+this.timerMinutes;
+                    }
+                    return this.timerMinutes;
+                },
+                sec() {
+                    if(this.timerSeconds < 10){
+                        return '0'+this.timerSeconds;
+                    }
+                    return this.timerSeconds;
+                },
+                isTimerRunning(){
+                    return this.timerState === 'Stopped';
+                },
+                isTimerPaused(){
+                    return this.timerState == 'Paused';
+                }
+            }
+        });
+
+
+
+        let app = new Vue({
+            el: '#app',
+        })
+    </script>
+</body>
+</html>
