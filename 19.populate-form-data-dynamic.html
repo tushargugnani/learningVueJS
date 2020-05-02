@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body class="container">
+    <div id="app">
+        <h4> Job Application</h4>
+        <form class="col-md-8">
+            <div class="form-group">
+                <label for="country">Which Country do you live in?</label>
+                <select name="country" class="form-control" v-model="country">
+                    <option v-for="country in formData.countries" :value="country" >{{country}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="country">What is your current employment status?</label><br/>
+                    <template v-for="status in formData.employmentStatus">
+                    <input name="status" :checked="status.checked" type="radio" :value="status.value" v-model="employmentStatus"/> {{status.text}}
+                    <br/>
+                    </template>
+            </div>
+            <div class="form-group">
+                <label for="country">Areas of Interest?</label><br/>
+                    <template v-for="interest in formData.interest">
+                    <input :checked="interest.checked" type="checkbox" :value="interest.value" v-model="interestedIn" /> {{interest.text}}
+                    <br/>
+                    </template>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+<script type="text/javascript">
+    let app = new Vue({
+        el: '#app',
+        data: {
+            formData: {
+                //To be populated in select box
+                countries : ['USA', 'India', 'Japan', 'Australia'],
+                //To be populated as radio input fields
+                employmentStatus : [
+                    {value : 'FullTime', text: 'Full Time Employed'},
+                    {value : 'PartTime', text: 'Part Time Employed'},
+                    {value : 'Intern', text: 'Interning'},
+                    {value : 'Unemployed', text: 'Not Working', checked : true},
+                    {value : 'Sabbatical', text: 'On sabbatical'}
+                ],
+                //To be populated as checkbox input fields
+                interest : [
+                    {value : 'coach', text: 'Performance Coach'},
+                    {value : 'manager', text: 'Account Manager'},
+                    {value : 'sales', text: 'Sales', checked: true},
+                    {value : 'HR', text: 'Human Resource'},
+                    {value : 'Admin', text: 'Administration'},
+                ],
+            },
+            country: '',
+            employmentStatus: '',
+            interestedIn: [],
+     
+        }
+    });
+</script>
+</body>
+</html>
