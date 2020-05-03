@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app" class="container">
+        <form>
+            <template v-for="(question, index) in questions">
+                <h4>{{question.q}}</h4>
+                <template v-for="options in question.a">
+                    <input type="radio" :name="'question'+index" :value="options.option"  v-model="responses['question'+index]"/> {{options.option}} <br/>
+                </template>
+            <br/>
+            </template>
+            <button @click.prevent="submit">Submit</button>
+        </form>
+    </div>
+</body>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            "questions": [
+                { 
+                    "q": "What number is the letter A in the English alphabet?",
+                    "a": [
+                        {"option": "8",      "correct": false},
+                        {"option": "14",     "correct": false},
+                        {"option": "1",      "correct": true},
+                        {"option": "23",     "correct": false} // no comma here
+                    ],
+                },
+                { 
+                    "q": "Where is TajMahal?",
+                    "a": [
+                        {"option": "Delhi",      "correct": false},
+                        {"option": "Agra",     "correct": true},
+                        {"option": "Mumbai",      "correct": false},
+                        {"option": "Kochin",     "correct": false} // no comma here
+                    ],
+                },
+                { 
+                    "q": "Where is GateWay Of India?",
+                    "a": [
+                        {"option": "Delhi",      "correct": false},
+                        {"option": "Agra",     "correct": false},
+                        {"option": "Mumbai",      "correct": true},
+                        {"option": "Kochin",     "correct": false} // no comma here
+                    ],
+                },
+            ],
+            responses: {}
+        },
+        methods:{
+            submit(){
+                for (var key of Object.keys(this.responses)) {
+                    console.log(key + " -> " + this.responses[key])
+                }
+            }
+        }
+    });
+</script>
+</html>
