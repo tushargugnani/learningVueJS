@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            padding: 40px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container">
+                <div id="app">
+                    <home-loan-calculator></home-loan-calculator>
+                </div>
+    </div>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/x-template" id="home-loan-calculator-template">
+        <div>
+        <div class="row">
+            <div class="col-lg-9 mx-auto">
+                <h3>EMI Calculator</h3>
+                <form>
+                    <div class="form-group">
+                    <label for="exampleInputEmail1">Loan Amount</label>
+                    <input type="text" class="form-control" id="loanAmount" placeholder="Enter Loan Amount" v-model.number="loanAmount">
+                    </div>
+                    <div class="form-group">
+                    <label for="exampleInputPassword1">Tenure</label>
+                    <input type="text" class="form-control" id="tenure" placeholder="Enter Tenure in Years" v-model.number="tenureYears">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Interest Rate</label>
+                        <input type="text" class="form-control" id="interestRate" placeholder="Enter Rate of Interest" v-model.number="interestRateYearly">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row py-5 text-white">
+            <div class="col-md-3 mx-auto ">
+                <div class="card bg-warning my-2">
+                    <div class="card-header">
+                    Monthly EMI
+                    </div>
+                    <div class="card-body">
+                        {{emi.toFixed(2)}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mx-auto">
+                <div class="card bg-info my-2">
+                    <div class="card-header">
+                    Total Payment
+                    </div>
+                    <div class="card-body">
+                        {{totalPayment.toFixed()}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mx-auto">
+                <div class="card bg-secondary my-2">
+                    <div class="card-header">
+                    Total Interest
+                    </div>
+                    <div class="card-body">
+                        {{totalInterest.toFixed()}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </script>
+</body>
+<script>
+    Vue.component('home-loan-calculator', {
+        template : '#home-loan-calculator-template',
+        data(){
+            return{
+                loanAmount : 200000,
+                tenureYears: 10,
+                interestRateYearly: 8.5,
+            }
+        },
+        computed:{
+
+            tenureMonths(){
+                return this.tenureYears * 12;
+            },
+
+            interestRate(){
+                return this.interestRateYearly / 100 / 12;
+            },
+
+            emi(){
+                var x = Math.pow(1 + this.interestRate, this.tenureMonths);
+                var emiMonthly =  (this.loanAmount * x * this.interestRate) / (x-1);
+                return Number(emiMonthly);
+            },
+
+            totalPayment(){
+                return Number(this.emi * this.tenureMonths);
+            },
+
+            totalInterest(){
+                return Number(this.totalPayment - this.loanAmount);
+            },
+
+
+        }
+    });
+
+
+    let app = new Vue({
+        el: '#app'
+    });
+</script>
+</html>
