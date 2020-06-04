@@ -10,10 +10,10 @@
     <!-- development version, includes helpful console warnings -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
-<body>
+<body class="py-5">
     <div class="container">
             <div id="app" class="text-center">
-                <img :src="images[currentImage]" width="400" height="500"><br/><br/>
+                <img :src="'/assets/images/'+images[currentImage]" width="400" height="500"><br/><br/>
                 <button @click="previousImage" class="btn btn-primary" :disabled="currentImage === 0">Previous</button>
                 <button @click="nextImage" class="btn btn-primary" :disabled="currentImage === (images.length - 1)">Next</button>
             </div>
@@ -24,7 +24,7 @@
     var app = new Vue({
         el: '#app',
         data: {
-            images: ['https://i.imgur.com/rmydi2w.jpg', 'https://i.imgur.com/rAFqZiM.jpg', 'https://i.imgur.com/Fpw5KKY.jpg', 'https://i.imgur.com/IbYRmoW.jpg', 'https://i.imgur.com/9poVrgA.jpg'],
+            images: ['cat1.jpg', 'cat2.jpeg', 'cat3.jpg', 'cat4.jpg'],
             currentImage : 0
         },
         methods:{

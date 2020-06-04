@@ -10,13 +10,15 @@
     <!-- development version, includes helpful console warnings -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
-<body>
+<body class="py-5">
     <div id="app" class="container">
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum iste <span class="dots" v-show="!more">...</span>
-            <span class="more" v-show="more">iusto magni voluptas impedit vitae neque aut eaque repudiandae laboriosam in, minima totam animi sunt aliquam? Architecto at esse labore?</span><br/>
-        </p>
-        <a href="#" @click="toggleText" class="btn btn-primary my-3">{{buttonText}}</a>
+        <div class="col-md-8 mx-auto">
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum iste <span class="dots" v-show="!more">...</span>
+                <span class="more" v-show="more">iusto magni voluptas impedit vitae neque aut eaque repudiandae laboriosam in, minima totam animi sunt aliquam? Architecto at esse labore?</span><br/>
+            </p>
+            <a href="#" @click="toggleText" class="btn btn-primary my-3">{{buttonText}}</a>
+        </div>
     </div>
 </body>
 <script type="text/javascript">
