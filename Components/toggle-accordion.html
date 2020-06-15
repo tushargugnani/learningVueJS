@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<style>
+    .toggle-title {
+    position: relative;
+    cursor: pointer;
+}
+
+.toggle-title:before {
+    content: " ";
+    position: absolute;
+    top: calc(50% + 1px);
+    right: 14px;
+    border-color: #ccc;
+    border-top: 1px solid;
+    border-right: 1px solid;
+    width: 8px;
+    height: 8px;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transition: transform .3s,top .3s;
+    transform: rotate(-45deg) translate3d(0,-50%,0);
+    transform-origin: 35%;
+}
+
+.toggle.active>.toggle-title:before {
+    top: calc(50% - 8px);
+    transform: rotate(135deg);
+}
+
+.fadeHeight-enter-active,
+.fadeHeight-leave-active {
+  transition: all 0.3s;
+  max-height: 230px;
+}
+.fadeHeight-enter,
+.fadeHeight-leave-to
+{
+  opacity: 0;
+  max-height: 0px;
+}
+</style>
+<body class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div id="app">
+                    <toggle-component>
+                        <template v-slot:title>
+                            This is a sample title 1
+                        </template>
+                        <template v-slot:content>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, explicabo eaque rerum numquam error dolore autem dolor, esse consequatur voluptas necessitatibus rem. Minus nobis, atque mollitia aliquid repellat qui nulla!
+                        </template>
+                    </toggle-component>
+                    <toggle-component>
+                        <template v-slot:title>
+                            This is a sample title 2
+                        </template>
+                        <template v-slot:content>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, explicabo eaque rerum numquam error dolore autem dolor, esse consequatur voluptas necessitatibus rem. Minus nobis, atque mollitia aliquid repellat qui nulla!
+                        </template>
+                    </toggle-component>
+                    <toggle-component>
+                        <template v-slot:title>
+                            This is a sample title 3
+                        </template>
+                        <template v-slot:content>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, explicabo eaque rerum numquam error dolore autem dolor, esse consequatur voluptas necessitatibus rem. Minus nobis, atque mollitia aliquid repellat qui nulla!
+                        </template>
+                    </toggle-component>
+                    <toggle-component>
+                        <template v-slot:title>
+                            This is a sample title 4
+                        </template>
+                        <template v-slot:content>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, explicabo eaque rerum numquam error dolore autem dolor, esse consequatur voluptas necessitatibus rem. Minus nobis, atque mollitia aliquid repellat qui nulla!
+                        </template>
+                    </toggle-component>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    Vue.component('toggle-component',{
+        template: `<div class="toggle" :class="{ active: isActive }">
+            <div class="toggle-title border-bottom py-3 font-weight-bolder text-secondary" @click="toggleContent">
+                <slot name="title"></slot>
+            </div>
+            <transition name="fadeHeight" mode="out-in">
+                <div class="toggle-content py-3" v-if="isActive">
+                    <slot name="content"></slot>
+                </div>
+            </transition>
+        </div>`,
+        data(){
+            return{
+                isActive: false
+            }
+        },
+        methods:{
+            toggleContent(){
+                this.isActive = !this.isActive
+            }
+        }
+    });
+
+    let app = new Vue({
+        el : '#app'
+    })
+</script>
+</html>
